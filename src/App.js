@@ -1,5 +1,6 @@
 import './App.css';
 import "@patternfly/react-core/dist/styles/base.css";
+import React, { useState } from 'react';
 import { LazyLog } from 'react-lazylog';
 import Logger from './Logger/logger';
 import data from "./data/data";
@@ -14,7 +15,7 @@ import {
 } from "@patternfly/react-core";
 
 const App = () => {
-
+  const [ showData, setShowData ] = useState(false);
   // const onSelect = ( currentItem, currentItemProps ) => {
   //   console.log('looking at new logger: ', currentItem, currentItemProps)
   // };
@@ -22,14 +23,6 @@ const App = () => {
   const stringTest = "\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n";
   console.log('data.console in logger: ', stringTest);
   console.log('stringify ', JSON.stringify(stringTest));
-
-  // const Logger = () => {
-  //   <Logger 
-  // }
-
-  // const LazyLogger = () => {
-  //   <LazyLog enableSearch text={ () => data.console } caseInsensitive/>
-  // };
 
   return (
     <div className="root-div">
@@ -55,7 +48,8 @@ const App = () => {
             <Card>
               <CardTitle> Raw Data</CardTitle>
               <CardBody>
-                <Button> Click to See Raw Data </Button>
+                <Button onClick={ ()=> {setShowData(!showData)} }> Click to See Raw Data </Button>
+                {/* { showData ? {stringTest} : <br /> } */}
               </CardBody>
             </Card>
           </StackItem>
