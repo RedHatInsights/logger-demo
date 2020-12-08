@@ -1,0 +1,39 @@
+.ins-logger-row {
+    background: var(--ins-c-logger--toolbar-background-color);
+    display: flex;
+    align-items: center; // center everything vertically
+    height: var(--ins-c-logger--row-height);
+
+
+    &.cell__data-column {
+        font-size: var(--ins-c-logger--sm-font-size);
+        width: var(--ins-c-logger--row-data-width);
+        background: var(--ins-c-logger--root-background-color);
+        padding-top: 5px;
+        padding-left: 16px;
+        margin-bottom: 5px;
+        display: inline-block;
+        
+        &:hover {
+            background: var(--ins-c-logger--hover-row-color);
+            cursor: pointer; // show the user they can click it
+            & + .cell__stamp-column { background: var(--ins-c-logger--hover-row-color) }
+        }
+        &.cell--inFocus, &.cell--inFocus + .cell__stamp-column {
+            background: var(--pf-global--palette--light-green-100);
+        }
+
+        &.cell--highlighted {
+            background: var(--ins-c-logger--ins-c-logger--active-row-color) ;
+        }
+    }
+    &.cell__index-column {
+        justify-content: center;          
+        color: var(--ins-c-logger--index-font-color);
+        border-right: 1px solid var(--ins-c-logger--index-BorderColor);
+        border-left: 1px solid var(--ins-c-logger--index-BorderColor);
+        width: var(--ins-c-logger--row-index-width);
+    }
+
+}
+
