@@ -18,7 +18,7 @@ const App = () => {
   const [ showData, setShowData ] = useState(false);
   const [ parseData, setParseData ] = useState(true);
   const [ textAreaValue, setTextAreaValue ] = useState('');
-  const [ message, setMessage ] = useState(data.message.payload.console);
+  const [ logMessage, setLogMessage ] = useState(data.message.payload.console);
   // const onSelect = ( currentItem, currentItemProps ) => {
   //   console.log('looking at new logger: ', currentItem, currentItemProps)
   // };
@@ -31,13 +31,13 @@ const App = () => {
 
   const submitNewLog = () => {
     console.log('New log submitted:', textAreaValue);
-    setMessage(textAreaValue);
+    setLogMessage(textAreaValue);
   }
 
   const resetLog = () => {
     console.log('Resetting log values');
     setTextAreaValue('');
-    setMessage(originalData);
+    setLogMessage(originalData);
   }
   
   return (
@@ -62,7 +62,7 @@ const App = () => {
                 Lazy Log
               </CardTitle>
               <CardBody>
-                <LazyLog extraLines={1} enableSearch text={ message } caseInsensitive/>
+                <LazyLog extraLines={1} enableSearch text={ logMessage } caseInsensitive/>
               </CardBody>
             </Card>
             <Card style={{ height: 800 }}>
@@ -71,7 +71,7 @@ const App = () => {
                 <Button style={ { marginLeft: 10 } } onClick={() => { setParseData(!parseData) }}>Parse Data</Button>
               </CardTitle>
               <CardBody style={{ height: 700, width: 1200}}>
-                <Logger data={ message }  parseData={ parseData } />
+                <Logger data={ logMessage }  parseData={ parseData } />
               </CardBody>
             </Card>
             <Card>
@@ -80,7 +80,7 @@ const App = () => {
                 <Button onClick={ () => { setShowData(!showData) } }> Click to See Raw Data </Button>
               </CardBody>
               <CardBody>
-                { showData ? <p> { message } </p>: <br /> }
+                { showData ? <p> { logMessage } </p>: <br /> }
               </CardBody>
             </Card>
           </StackItem>
