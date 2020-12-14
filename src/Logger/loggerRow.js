@@ -12,8 +12,8 @@ const LoggerRow = memo(({ index, style, data }) => {
 
     useEffect(() => {
         let currentHighlightedIndexes = [];
-        let temp = 0;
         currentHighlightedIndexes = highlightedRowIndexes;
+        let temp = 0;
 
         if (isHiglighted && clickCounter > 0) {
             currentHighlightedIndexes.push(index);
@@ -24,7 +24,12 @@ const LoggerRow = memo(({ index, style, data }) => {
             currentHighlightedIndexes.splice(temp, 1);
             setHighlightedRowIndexes(currentHighlightedIndexes);
         }
-    }, [ isHiglighted ]);
+    }, [ clickCounter ]);
+
+    useEffect(() => {
+      const highlightIndex = highlightedRowIndexes.indexOf(index);
+      highlightIndex === -1 ? setIsHiglighted(false) : setIsHiglighted(true);
+    }, []);
 
     const getData = (index) => {
         return parsedData[ index ]; // Can use this function to later add wrapping for syntax highlighting (basic)
@@ -68,7 +73,7 @@ const LoggerRow = memo(({ index, style, data }) => {
             </span>
             <span
                 className={ rowClassname }
-                onClick={ () => handleHighlightRow(index) }
+                onClick={ () => handleHighlightRow() }
             >
                 { getData(index) }
             </span>
