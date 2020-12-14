@@ -92,7 +92,7 @@ const Logger = memo(({ hasSearchbar, data, parseData }) => {
         let lowerCaseRow = "";
 
         if (searchedInput.match('[:][1-9]\d*')) {
-            console.log('Trying to jump to a line: ', searchedInput);
+            console.log('Trying to jump to a line: ', searchedInput); //eslint-disable-line
             const splitInput = searchedInput.split(':');
             const offsetIndex = parseInt(splitInput[1]) - 1;
             scrollToRow(offsetIndex); // Needs input validation/Clean Up for readability later

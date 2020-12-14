@@ -30,7 +30,7 @@ const App = () => {
       <Stack>
           <h1 style={{textAlign: "center"}}> Logger Test </h1>
           <StackItem>
-            <Card style={{ height: 900, width: 1000}}>
+            <Card style={{ height: 800, width: 1000}}>
               <CardTitle>
                 Lazy Log
               </CardTitle>
@@ -38,12 +38,12 @@ const App = () => {
                 <LazyLog extraLines={1} enableSearch text={stringTest} caseInsensitive/>
               </CardBody>
             </Card>
-            <Card style={{ height: 1200, width: 1500}}>
+            <Card style={{ height: 800, width: 1500}}>
               <CardTitle>
                 Logger
               </CardTitle>
-              <CardBody style={{ height: 900, width: 1200}}>
-                <Logger data={ data.message.payload.console }  isParentDataString />
+              <CardBody style={{ height: 700, width: 1200}}>
+                <Logger data={ data.message.payload.console }  parseData />
               </CardBody>
             </Card>
             <Card>
