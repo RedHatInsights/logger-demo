@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { LazyLog } from 'react-lazylog';
 import Logger from './Logger/logger';
 import data from "./data/data";
-
 import {
   Button,
   CardTitle,
@@ -37,12 +36,12 @@ const App = () => {
                 <LazyLog extraLines={1} enableSearch text={stringTest} caseInsensitive/>
               </CardBody>
             </Card>
-            <Card>
+            <Card style={{ height: 1200, width: 1500}}>
               <CardTitle>
                 Logger
               </CardTitle>
-              <CardBody>
-                <Logger data={ data.message.payload } />
+              <CardBody style={{ height: 900, width: 1200}}>
+                <Logger data={ data.message.payload }  isParentDataString />
               </CardBody>
             </Card>
             <Card>

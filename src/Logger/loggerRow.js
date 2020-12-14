@@ -5,18 +5,18 @@ import './styles/loggerRow.styles.scss';
 import PropTypes from 'prop-types';
 
 const LoggerRow = memo(({ index, style, data }) => {
-    const { parsedData, rowInFocus, highlightedRowIndexes, setHighlightedRowIndexes } = data;
+    const { parsedData, rowInFocus, setRowInFocus, highlightedRowIndexes, setHighlightedRowIndexes } = data;
     const [ clickCounter, setClickCounter ] = useState(0);
     const [ isHiglighted, setIsHiglighted ] = useState(false);
-    const [ rowSeen, setRowSeen ] = useState(false);
+    // const [ rowSeen, setRowSeen ] = useState(false);
 
     useEffect(() => {
         let currentHighlightedIndexes = [];
         let temp = 0;
         currentHighlightedIndexes = highlightedRowIndexes;
 
-        console.log('This is my higlightedIndexes: ', highlightedRowIndexes); //eslint-disable-line
-        console.log('This is my currentHiglightedIndexes: ', currentHighlightedIndexes); //eslint-disable-line
+        // console.log('This is my higlightedIndexes: ', highlightedRowIndexes); //eslint-disable-line
+        // console.log('This is my currentHiglightedIndexes: ', currentHighlightedIndexes); //eslint-disable-line
 
         if (isHiglighted && clickCounter > 0) {
             currentHighlightedIndexes.push(index);
@@ -29,12 +29,16 @@ const LoggerRow = memo(({ index, style, data }) => {
         }
     }, [ isHiglighted ]);
 
-    // const lookForItemRow = (searchedInput) => {
-    //     const searchedIndex = parseInt(searchedInput);
-    //     loggerRef.current.scrollToItem(searchedIndex);
-    // };
+    useEffect(() => {
+      if ( rowInFocus === -1 ) {
+        // setRowSeen(true);
+        // setRowInFocus(-2);
+        console.log('Search cleared! This is loggerRow speaking. ', rowInFocus);
+      }
+    }, [ rowInFocus ]);
 
     const getData = (index) => {
+        // console.log('This is my current line of data on logger: ', parsedData[index]); //eslint-disable-flag
         return parsedData[ index ]; // Can use this function to later add wrapping for syntax highlighting (basic)
     };
 
@@ -48,20 +52,20 @@ const LoggerRow = memo(({ index, style, data }) => {
         setIsHiglighted(!isHiglighted);
     };
 
-    const handleMouseFocusEnter = () => {
-        if (rowInFocus !== index && rowSeen) {
-            return null;
-        }
+    // const handleMouseFocusEnter = () => {
+    //     if (rowInFocus !== index && rowSeen) {
+    //         return null;
+    //     }
 
-        setRowSeen(true);
-    };
+    //     setRowSeen(true);
+    // };
 
     const rowClassname = classNames('ins-logger-row cell__data-column',
         {
             'cell--highlighted': isHiglighted
         },
         {
-            'cell--inFocus': index === rowInFocus
+            'cell--inFocus': index === rowInFocus 
         }
     );
 
@@ -69,7 +73,7 @@ const LoggerRow = memo(({ index, style, data }) => {
         <div style={ style }
             className='ins-logger-row'
             onClick={ () => handleHighlightRow(index) }
-            onMouseEnter={ () => handleMouseFocusEnter() }
+            // onMouseEnter={ () => handleMouseFocusEnter() }
         >
             <span className='ins-logger-row cell__index-column'>
                 { getRowIndex(index) }

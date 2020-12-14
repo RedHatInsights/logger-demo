@@ -2,7 +2,7 @@ import React, { useEffect, useState, memo }  from 'react';
 import { VariableSizeList as List, areEqual } from 'react-window';
 import LoggerRow from './loggerRow';
 import LoggerToolbar from './loggerToolbar';
-// import LoggerFooter from './loggerFooter';
+import LoggerFooter from './loggerFooter';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import { LOGGER_ROW_HEIGHT, LOGGER_HEIGHT, LOGGER_WIDTH } from './utils/constants';
@@ -11,20 +11,17 @@ import './styles/base.scss';
 import './styles/logger.styles.scss';
 import './styles/styles.css';
 
-const cleanUpStringArray = (data) => { // Needs refactoring and refinement *later*
+const cleanUpStringArray = (data) => {
     const cleanArray = [];
     let s = '';
-    console.log('This is our split: ', data); //eslint-disable-line
-
+    console.log('HOw many times');
     for (s of data) {
         if (s !== '\r' && s !== '\\r' && s !== '"') {
-            // spaceCounter++;
             cleanArray.push(s);
         }
     }
 
     return cleanArray;
-
 };
 
 const parseConsoleOutput = (data) => {
@@ -62,6 +59,7 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
     const [ searchedWordIndexes, setSearchedWordIndexes ] = useState([]);
     const [ highlightedRowIndexes, setHighlightedRowIndexes ] = useState([]);
     const [ rowInFocus, setRowInFocus ] = useState();
+    const DEFAULT_SEARCH_INDEX = 0;
     const loggerRef = React.useRef();
     Logger.displayName = 'Logger';
     const dataToRender = createLoggerDataItem(
@@ -82,50 +80,45 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
         return true;
     };
 
-    useEffect(() => {
-        isParentDataString
-            ? setParsedData(parseConsoleOutput(data.console))
-            : setParsedData('');
-    }, []);
-
-    useEffect(() => {
-        if (searchedWordIndexes.length !== 0) {
-            scrollToRow(searchedWordIndexes[0]);
-        }
-    }, [ searchedWordIndexes ]);
+    useEffect(() => { isParentDataString ? setParsedData(parseConsoleOutput(data.console)) : setParsedData(''); }, [isParentDataString]);
 
     const searchForKeyword = () => {
-        let rowIndexCounter = 0;
         const searchResults = [];
+        let rowIndexCounter = 0;
+        let keywordIndexPosition = 0;
+        let lowerCaseRow = "";
 
         // Need to verify array v. string, might just be receiving an array depending on where they're running this
-        console.log('This is my searchedInput: ', searchedInput); //eslint-disable-line
+        console.log('Going looking for my searchedInput: ', searchedInput); //eslint-disable-line
 
-        if (searchedInput.match(':')) {
-
+        if (searchedInput.match('[:][1-9]\d*')) {
             const splitInput = searchedInput.split(':');
+            console.log('Going searching in line mode: ', searchedInput);
+            console.log('Going into line mode: ', splitInput);
             scrollToRow(parseInt(splitInput[1])); // Needs input validation/Clean Up for readability later
             setSearchedInput('');
             return;
         }
 
         for (const row of parsedData) {
-            console.log('Looking for the stuffs inside this: ', parsedData); //eslint-disable-line
-            console.log('This is my searchedInput in the search: ', searchedInput); //eslint-disable-line
-            console.log('This is my row of parsedData: ', row); //eslint-disable-line
-            const lowerCaseRow = row.toLowerCase();
-            const keywordIndexPosition = lowerCaseRow.search(searchedInput);
-
-            console.log('This is my searched index position: ', keywordIndexPosition); //eslint-disable-line
+            lowerCaseRow = row.toLowerCase();
+            keywordIndexPosition = lowerCaseRow.indexOf(searchedInput);
 
             if (keywordIndexPosition !== -1) {
+                console.log("searched! making sure we got the right thing: ", searchedInput); // eslint-disable-line
                 searchResults.push(rowIndexCounter);
             }
 
             rowIndexCounter++;
         }
 
-        setSearchedWordIndexes(searchedWordIndexes => [ ...searchedWordIndexes, ...searchResults ]); // gonna need a way for the user to clear these
+        console.log('searched! checking my index: ', keywordIndexPosition); // eslint-disable-line
+        
+        if(searchResults.length > 0){
+          console.log('searched! scrolling to : ', searchResults[DEFAULT_SEARCH_INDEX]); // eslint-disable-line
+          setSearchedWordIndexes([...searchResults]); // testing this for search
+          scrollToRow(searchResults[DEFAULT_SEARCH_INDEX]);
+        }
     };
 
     const calculateItemsPerPage = () => {
@@ -140,7 +133,7 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
 
     return (
       <>
-        <div className='ins-c-logger' hasGutter>
+        <div className='ins-c-logger' hasgutter>
             <LoggerToolbar
                 rowInFocus={ rowInFocus }
                 setRowInFocus={ setRowInFocus }
@@ -150,7 +143,6 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
                 searchedWordIndexes={ searchedWordIndexes }
                 setSearchedWordIndexes={ setSearchedWordIndexes }
                 itemsPerPage={ calculateItemsPerPage }
-                hasSearchbar={ hasSearchbar }
                 searchedInput={ searchedInput }
                 setSearchedInput={ setSearchedInput }
                 searchForKeyword={ searchForKeyword }
@@ -161,7 +153,7 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
                 height={ LOGGER_HEIGHT }
                 width={ LOGGER_WIDTH }
                 itemSize={ () => 30 }
-                itemCount={ parsedData.length }
+                itemCount={ `${ parsedData.length }` }
                 itemData={ dataToRender }
                 ref={ loggerRef }
             >
@@ -178,15 +170,17 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
 }, areEqual);
 
 Logger.defaultProps =  {
-    isParentDataString: true,
+    isParentDataString: false,
     hasSearchbar: true,
     includesLoadingStatus: true,
+    includesFooter: false,
     searchedKeyword: '',
     path: '.console'
 };
 
 Logger.propTypes = {
     hasSearchbar: PropTypes.bool,
+    includesFooter: PropTypes.bool, 
     data: PropTypes.object,
     isParentDataString: PropTypes.bool
 };

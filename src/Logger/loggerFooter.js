@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './styles/loggerFooter.styles.scss';
 import { Button, Level, LevelItem } from '@patternfly/react-core';
 import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
+// import { AngleDoubleDownIcon, AngleDoubleUpIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
 const LoggerFooter = ({ highlightedRowIndexes, rowInFocus, scrollToRow }) => {
