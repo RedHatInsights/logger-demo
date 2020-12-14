@@ -34,9 +34,16 @@ const LoggerToolbar = ({
       console.log('Length of my userINput: ', userInput.length);
     }, [ userInput ]);
 
+    useEffect(() => {
+      if( searchedWordIndexes.length >= 1 ){
+        console.log('Changing our searched word index mate (meaning we found shit): ', searchedWordIndexes); //eslint-disable-line
+        setFoundWordIndex(DEFAULT_INDEX);
+      }
+    }, [ searchedWordIndexes ]);
+
     const handleChange = (value) => {
         setUserInput(value.toLowerCase());
-        // searchForKeyword(userInput.toLowerCase());
+        // searchForKeyword();
     };
 
     const handleClear = () => {
@@ -85,7 +92,7 @@ const LoggerToolbar = ({
     const handleKeyPress = (e) => {
         if(e.key === "Enter") {
           searchForKeyword(userInput.toLowerCase());
-          setFoundWordIndex(DEFAULT_INDEX);
+          // setFoundWordIndex(DEFAULT_INDEX);
         }
 
         if(e.keyCode === 27) {
@@ -106,7 +113,7 @@ const LoggerToolbar = ({
                     onClear={ () => handleClear() }
                     onNextClick = { () => handleNextSearchItem() }
                     onPreviousClick = { () => handlePrevSearchItem() }
-                    onKeyPress={ (e) => handleKeyPress(e) }
+                    onKeyDown={ (e) => handleKeyPress(e) }
                     resultsCount = { 
                         searchedWordIndexes.length === 0 ? "" : `${ foundWordIndex } / ${ searchedWordIndexes.length }`
                     }
