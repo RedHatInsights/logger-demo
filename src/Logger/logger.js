@@ -68,7 +68,7 @@ const Logger = memo(({ hasSearchbar, data, parseData }) => {
   
       for (s of data) {
           if (s !== '\r' && s !== '\\r' && s !== '' && s !== '\n' && s !== '\\n"' && s !== '\\n' && s !== '"') {
-              console.log('TESTING SUCCESS: ', s); //eslint-disable-line
+              // console.log('TESTING SUCCESS: ', s); //eslint-disable-line
               cleanArray.push(s);
           }
       }
@@ -138,7 +138,7 @@ const Logger = memo(({ hasSearchbar, data, parseData }) => {
 
     return (
       <>
-        <div className='ins-c-logger' hasgutter>
+        <div className='ins-c-logger' hasgutter="true">
             <LoggerToolbar
                 rowInFocus={ rowInFocus }
                 setRowInFocus={ setRowInFocus }

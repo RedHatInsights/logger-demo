@@ -21,9 +21,9 @@ const App = () => {
   // };
   
   const stringTest = "\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n";
-  console.log('data.console in logger: ', stringTest);
-  console.log('stringify ', JSON.stringify(stringTest));
-  console.log('Testing out my og data: ', data);
+  // console.log('data.console in logger: ', stringTest);
+  // console.log('stringify ', JSON.stringify(stringTest));
+  // console.log('Testing out my og data: ', data);
 
   return (
     <div className="root-div">
