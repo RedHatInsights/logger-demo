@@ -11,40 +11,67 @@ import {
   CardBody, 
   Stack,
   StackItem,
+  TextArea
 } from "@patternfly/react-core";
 
 const App = () => {
   const [ showData, setShowData ] = useState(false);
   const [ parseData, setParseData ] = useState(true);
+  const [ textAreaValue, setTextAreaValue ] = useState('');
+  const [ logMessage, setLogMessage ] = useState(data.message.payload.console);
   // const onSelect = ( currentItem, currentItemProps ) => {
   //   console.log('looking at new logger: ', currentItem, currentItemProps)
   // };
-  
-  const stringTest = "\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n";
-  // console.log('data.console in logger: ', stringTest);
-  // console.log('stringify ', JSON.stringify(stringTest));
-  // console.log('Testing out my og data: ', data);
 
+  const originalData = data.message.payload.console;
+
+  const handleTextAreaChange = (textAreaValue) => {
+    setTextAreaValue(textAreaValue);
+  }
+
+  const submitNewLog = () => {
+    console.log('New log submitted:', textAreaValue);
+    setLogMessage(textAreaValue);
+  }
+
+  const resetLog = () => {
+    console.log('Resetting log values');
+    setTextAreaValue('');
+    setLogMessage(originalData);
+  }
+  
   return (
     <div className="root-div">
-      <Stack>
+      <Stack hasGutter>
           <h1 style={{textAlign: "center"}}> Logger Test </h1>
           <StackItem>
-            <Card style={{ height: 800, width: 1000}}>
+            <Card>
+              <CardTitle> Custom Log Message</CardTitle>
+              <CardBody>
+                <TextArea value={textAreaValue} onChange={handleTextAreaChange}/>
+                <div className='button-wrapper'>
+                  <Button variant="primary" onClick={() => submitNewLog()}> Submit </Button>
+                  <Button variant="secondary" onClick={() => resetLog()}> Reset </Button>
+                </div>
+              </CardBody>
+            </Card>
+          </StackItem>
+          <StackItem>
+            <Card style={{ height: 800 }}>
               <CardTitle>
                 Lazy Log
               </CardTitle>
               <CardBody>
-                <LazyLog extraLines={1} enableSearch text={ data.message.payload.console } caseInsensitive/>
+                <LazyLog extraLines={1} enableSearch text={ logMessage } caseInsensitive/>
               </CardBody>
             </Card>
-            <Card style={{ height: 800, width: 1500}}>
+            <Card style={{ height: 800 }}>
               <CardTitle>
                 Logger
                 <Button style={ { marginLeft: 10 } } onClick={() => { setParseData(!parseData) }}>Parse Data</Button>
               </CardTitle>
               <CardBody style={{ height: 700, width: 1200}}>
-                <Logger data={ data.message.payload.console }  parseData={ parseData } />
+                <Logger data={ logMessage }  parseData={ parseData } />
               </CardBody>
             </Card>
             <Card>
@@ -53,7 +80,7 @@ const App = () => {
                 <Button onClick={ () => { setShowData(!showData) } }> Click to See Raw Data </Button>
               </CardBody>
               <CardBody>
-                { showData ? <p> { stringTest } </p>: <br /> }
+                { showData ? <p> { logMessage } </p>: <br /> }
               </CardBody>
             </Card>
           </StackItem>
