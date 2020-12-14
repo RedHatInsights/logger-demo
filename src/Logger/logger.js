@@ -11,30 +11,6 @@ import './styles/base.scss';
 import './styles/logger.styles.scss';
 import './styles/styles.css';
 
-const cleanUpStringArray = (data) => {
-    const cleanArray = [];
-    let s = '';
-
-    console.log('TESTING DATA MIAMORRRRRRRRR'); //eslint-disable-line
-
-    for (s of data) {
-        if (s !== '\r' && s !== '\\r' && s !== '' && s !== '\n' && s !== '\\n"' && s !== '\\n' && s !== '"') {
-            console.log('TESTING SUCCESS'); //eslint-disable-line
-            cleanArray.push(s);
-        }
-    }
-
-    return cleanArray;
-};
-
-const parseConsoleOutput = (data) => {
-    const stringToSplitWith = '\n';
-    const stringifiedData = YAML.stringify(data);
-    const cleanString = stringifiedData.split(stringToSplitWith);
-
-    return cleanUpStringArray(cleanString);
-};
-
 // Wrapping multiple variables around memoization to rerender loggerRow only when these change, and to send both through a single obj.
 const createLoggerDataItem = memoize((
     parsedData,
@@ -83,7 +59,34 @@ const Logger = memo(({ hasSearchbar, data, parseData }) => {
         return true;
     };
 
-    useEffect(() => { parseData ? setParsedData(parseConsoleOutput(data)) : setParsedData(data); }, [parseData]); // this is going to cause issues as it is
+    // useEffect(() => { parseData ? setParsedData(parseConsoleOutput(data)) : setParsedData(data); }, [parseData]); // this is going to cause issues as it is
+    useEffect( () => { setParsedData(parseConsoleOutput(data)); }, [ data, parseData ]);
+
+    const cleanUpStringArray = (data) => {
+      const cleanArray = [];
+      let s = '';
+  
+      for (s of data) {
+          if (s !== '\r' && s !== '\\r' && s !== '' && s !== '\n' && s !== '\\n"' && s !== '\\n' && s !== '"') {
+              console.log('TESTING SUCCESS: ', s); //eslint-disable-line
+              cleanArray.push(s);
+          }
+      }
+  
+        return cleanArray;
+    };
+  
+  const parseConsoleOutput = (data) => {
+      const stringToSplitWith = '\n';
+      const stringifiedData = YAML.stringify(data);
+      const cleanString = stringifiedData.split(stringToSplitWith);
+  
+      if (parseData) {
+        return cleanUpStringArray(cleanString);
+      }
+      
+      return cleanString;
+  };
 
     const searchForKeyword = () => {
         const searchResults = [];
@@ -92,7 +95,6 @@ const Logger = memo(({ hasSearchbar, data, parseData }) => {
         let lowerCaseRow = "";
 
         if (searchedInput.match('[:][1-9]\d*')) {
-            console.log('Trying to jump to a line: ', searchedInput); //eslint-disable-line
             const splitInput = searchedInput.split(':');
             const offsetIndex = parseInt(splitInput[1]) - 1;
             scrollToRow(offsetIndex); // Needs input validation/Clean Up for readability later

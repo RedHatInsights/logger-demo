@@ -35,22 +35,25 @@ const App = () => {
                 Lazy Log
               </CardTitle>
               <CardBody>
-                <LazyLog extraLines={1} enableSearch text={stringTest} caseInsensitive/>
+                <LazyLog extraLines={1} enableSearch text={ data.message.payload.console } caseInsensitive/>
               </CardBody>
             </Card>
             <Card style={{ height: 800, width: 1500}}>
               <CardTitle>
                 Logger
+                <Button style={ { marginLeft: 10 } } onClick={() => { setParseData(!parseData) }}>Parse Data</Button>
               </CardTitle>
               <CardBody style={{ height: 700, width: 1200}}>
-                <Logger data={ data.message.payload.console }  parseData />
+                <Logger data={ data.message.payload.console }  parseData={ parseData } />
               </CardBody>
             </Card>
             <Card>
               <CardTitle> Raw Data</CardTitle>
               <CardBody>
-                <Button onClick={ ()=> {setShowData(!showData)} }> Click to See Raw Data </Button>
-                {/* { showData ? {stringTest} : <br /> } */}
+                <Button onClick={ () => { setShowData(!showData) } }> Click to See Raw Data </Button>
+              </CardBody>
+              <CardBody>
+                { showData ? <p> { stringTest } </p>: <br /> }
               </CardBody>
             </Card>
           </StackItem>
