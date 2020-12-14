@@ -15,9 +15,6 @@ const LoggerRow = memo(({ index, style, data }) => {
         let temp = 0;
         currentHighlightedIndexes = highlightedRowIndexes;
 
-        // console.log('This is my higlightedIndexes: ', highlightedRowIndexes); //eslint-disable-line
-        // console.log('This is my currentHiglightedIndexes: ', currentHighlightedIndexes); //eslint-disable-line
-
         if (isHiglighted && clickCounter > 0) {
             currentHighlightedIndexes.push(index);
             setHighlightedRowIndexes(currentHighlightedIndexes);
@@ -29,16 +26,7 @@ const LoggerRow = memo(({ index, style, data }) => {
         }
     }, [ isHiglighted ]);
 
-    useEffect(() => {
-      if ( rowInFocus === -1 ) {
-        // setRowSeen(true);
-        // setRowInFocus(-2);
-        console.log('Search cleared! This is loggerRow speaking. ', rowInFocus);
-      }
-    }, [ rowInFocus ]);
-
     const getData = (index) => {
-        // console.log('This is my current line of data on logger: ', parsedData[index]); //eslint-disable-flag
         return parsedData[ index ]; // Can use this function to later add wrapping for syntax highlighting (basic)
     };
 

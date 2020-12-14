@@ -21,29 +21,22 @@ const LoggerToolbar = ({
     const DEFAULT_INDEX = 1;
 
     useEffect(() => {
-      setSearchedInput(userInput);
-
       if (userInput.length === 0) {
-        console.log('DELETING MY INPUT'); //eslint-disable-line
-        // setRowInFocus(DEFAULT_FOCUS);
         handleClear();
-        console.log('DELETING MY INPUT bruh, :', DEFAULT_FOCUS); //eslint-disable-line
+        return null;
       }
 
-      console.log('What happens with searchedInput in Toolar: ', userInput); //eslint-disable-line
-      console.log('Length of my userINput: ', userInput.length);
+      setSearchedInput(userInput);
     }, [ userInput ]);
 
     useEffect(() => {
       if( searchedWordIndexes.length >= 1 ){
-        console.log('Changing our searched word index mate (meaning we found shit): ', searchedWordIndexes); //eslint-disable-line
         setFoundWordIndex(DEFAULT_INDEX);
       }
     }, [ searchedWordIndexes ]);
 
     const handleChange = (value) => {
         setUserInput(value.toLowerCase());
-        // searchForKeyword();
     };
 
     const handleClear = () => {
@@ -56,18 +49,11 @@ const LoggerToolbar = ({
     const handleNextSearchItem = () => {
         let oldIndex = searchedWordIndexes.indexOf(rowInFocus);
         let temp = foundWordIndex;
-        
-        console.log('What happens with moving forward: ', oldIndex); //eslint-disable-line
-        console.log('row in focus is: ', rowInFocus);
-        console.log('Moving and looking for: ', searchedWordIndexes); //eslint-disable-line
 
         if (oldIndex >= searchedWordIndexes.length - 1) {
-            console.log('HIT MY LIMIT NOW SUBIENDO PAPA'); //eslint-disable-line
             return null;
         }
-
-        console.log(`TELOMETIERON: ${temp} and state is: ${foundWordIndex}`);
-        
+   
         setFoundWordIndex(++temp);
         scrollToRow(searchedWordIndexes[foundWordIndex]);
     };
@@ -76,15 +62,10 @@ const LoggerToolbar = ({
         let oldIndex = searchedWordIndexes.indexOf(rowInFocus);
         let temp = foundWordIndex;
 
-        console.log('This is my rowInFocus: ', rowInFocus);
-        console.log('What happens when moving back: ', oldIndex);
-
         if (oldIndex <= 0) {
-            console.log('HIT MY LIMIT NOW BAJANDO PAPA'); //eslint-disable-line
             return null;
         }
 
-        console.log(`TELOMETIERON: ${temp} and state is: ${foundWordIndex}`);
         setFoundWordIndex(--temp);
         scrollToRow(searchedWordIndexes[--temp]);
     };
@@ -92,11 +73,9 @@ const LoggerToolbar = ({
     const handleKeyPress = (e) => {
         if(e.key === "Enter") {
           searchForKeyword(userInput.toLowerCase());
-          // setFoundWordIndex(DEFAULT_INDEX);
         }
 
         if(e.keyCode === 27) {
-          console.log("CLEARING FROM ESC");
           handleClear();
         }
     };

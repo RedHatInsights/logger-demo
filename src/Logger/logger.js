@@ -88,13 +88,8 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
         let keywordIndexPosition = 0;
         let lowerCaseRow = "";
 
-        // Need to verify array v. string, might just be receiving an array depending on where they're running this
-        console.log('Going looking for my searchedInput: ', searchedInput); //eslint-disable-line
-
         if (searchedInput.match('[:][1-9]\d*')) {
             const splitInput = searchedInput.split(':');
-            console.log('Going searching in line mode: ', searchedInput);
-            console.log('Going into line mode: ', splitInput);
             scrollToRow(parseInt(splitInput[1])); // Needs input validation/Clean Up for readability later
             setSearchedInput('');
             return;
@@ -105,7 +100,6 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
             keywordIndexPosition = lowerCaseRow.search(searchedInput);
 
             if (keywordIndexPosition !== -1) {
-                console.log("searched! making sure we got the right thing: ", searchedInput); // eslint-disable-line
                 searchResults.push(rowIndexCounter);
             }
 
@@ -116,13 +110,11 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
         console.log('searched! checking my searchResults: ', searchResults); // eslint-disable-lin
         
         if(searchResults.length > 0){
-          console.log('searched! scrolling to : ', searchResults[DEFAULT_SEARCH_INDEX]); // eslint-disable-line
           setSearchedWordIndexes([...searchResults]); // testing this for search
           scrollToRow(searchResults[DEFAULT_SEARCH_INDEX]);
         }
 
         else if(searchResults.length <= 0){
-          console.log('Searched was fruitless');
           setRowInFocus(-1);
         }
     };
