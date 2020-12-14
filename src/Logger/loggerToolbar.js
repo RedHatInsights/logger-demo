@@ -22,20 +22,20 @@ const LoggerToolbar = ({
 
     useEffect(() => {
       setSearchedInput(userInput);
+
+      if (userInput.length === 0) {
+        console.log('DELETING MY INPUT'); //eslint-disable-line
+        // setRowInFocus(DEFAULT_FOCUS);
+        handleClear();
+        console.log('DELETING MY INPUT bruh, :', DEFAULT_FOCUS); //eslint-disable-line
+      }
+
       console.log('What happens with searchedInput in Toolar: ', userInput); //eslint-disable-line
       console.log('Length of my userINput: ', userInput.length);
     }, [ userInput ]);
 
     const handleChange = (value) => {
         setUserInput(value.toLowerCase());
-
-        if (userInput.length === 0) {
-          console.log('DELETING MY INPUT'); //eslint-disable-line
-          setRowInFocus(DEFAULT_FOCUS);
-          console.log('DELETING MY INPUT bruh, :', DEFAULT_FOCUS); //eslint-disable-line
-          return null;
-        }
-
         // searchForKeyword(userInput.toLowerCase());
     };
 
