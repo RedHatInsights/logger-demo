@@ -14,9 +14,12 @@ import './styles/styles.css';
 const cleanUpStringArray = (data) => {
     const cleanArray = [];
     let s = '';
-    console.log('HOw many times');
+
+    console.log('TESTING DATA MIAMORRRRRRRRR'); //eslint-disable-line
+
     for (s of data) {
-        if (s !== '\r' && s !== '\\r' && s !== '"') {
+        if (s !== '\r' && s !== '\\r' && s !== '' && s !== '\n' && s !== '\\n"' && s !== '\\n' && s !== '"') {
+            console.log('TESTING SUCCESS'); //eslint-disable-line
             cleanArray.push(s);
         }
     }
@@ -53,7 +56,7 @@ const createLoggerDataItem = memoize((
     searchedWordIndexes
 }));
 
-const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
+const Logger = memo(({ hasSearchbar, data, parseData }) => {
     const [ parsedData, setParsedData ] = useState([]);
     const [ searchedInput, setSearchedInput ] = useState('');
     const [ searchedWordIndexes, setSearchedWordIndexes ] = useState([]);
@@ -80,7 +83,7 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
         return true;
     };
 
-    useEffect(() => { isParentDataString ? setParsedData(parseConsoleOutput(data.console)) : setParsedData(''); }, [isParentDataString]);
+    useEffect(() => { parseData ? setParsedData(parseConsoleOutput(data)) : setParsedData(data); }, [parseData]); // this is going to cause issues as it is
 
     const searchForKeyword = () => {
         const searchResults = [];
@@ -89,8 +92,10 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
         let lowerCaseRow = "";
 
         if (searchedInput.match('[:][1-9]\d*')) {
+            console.log('Trying to jump to a line: ', searchedInput);
             const splitInput = searchedInput.split(':');
-            scrollToRow(parseInt(splitInput[1])); // Needs input validation/Clean Up for readability later
+            const offsetIndex = parseInt(splitInput[1]) - 1;
+            scrollToRow(offsetIndex); // Needs input validation/Clean Up for readability later
             setSearchedInput('');
             return;
         }
@@ -168,7 +173,7 @@ const Logger = memo(({ hasSearchbar, data, isParentDataString }) => {
 }, areEqual);
 
 Logger.defaultProps =  {
-    isParentDataString: false,
+    parseData: true,
     hasSearchbar: true,
     includesLoadingStatus: true,
     includesFooter: false,
@@ -179,8 +184,8 @@ Logger.defaultProps =  {
 Logger.propTypes = {
     hasSearchbar: PropTypes.bool,
     includesFooter: PropTypes.bool, 
-    data: PropTypes.object,
-    isParentDataString: PropTypes.bool
+    data: PropTypes.string,
+    parseData: PropTypes.bool
 };
 
 export default Logger;

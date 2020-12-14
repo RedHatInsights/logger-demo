@@ -15,6 +15,7 @@ import {
 
 const App = () => {
   const [ showData, setShowData ] = useState(false);
+  const [ parseData, setParseData ] = useState(true);
   // const onSelect = ( currentItem, currentItemProps ) => {
   //   console.log('looking at new logger: ', currentItem, currentItemProps)
   // };
@@ -22,6 +23,7 @@ const App = () => {
   const stringTest = "\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n\n\r\nPLAY [pause] *******************************************************************\n\r\nTASK [Gathering Facts] *********************************************************\n\nok: [etta-sitze.example.com]\n\r\nTASK [pause] *******************************************************************\n\nPausing for 60 seconds\n(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)\r\nok: [etta-sitze.example.com]\n\r\nPLAY [run insights] ************************************************************\n\r\nTASK [run insights] ************************************************************\n\n";
   console.log('data.console in logger: ', stringTest);
   console.log('stringify ', JSON.stringify(stringTest));
+  console.log('Testing out my og data: ', data);
 
   return (
     <div className="root-div">
@@ -41,7 +43,7 @@ const App = () => {
                 Logger
               </CardTitle>
               <CardBody style={{ height: 900, width: 1200}}>
-                <Logger data={ data.message.payload }  isParentDataString />
+                <Logger data={ data.message.payload.console }  isParentDataString />
               </CardBody>
             </Card>
             <Card>
